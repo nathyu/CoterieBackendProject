@@ -8,6 +8,6 @@ namespace BackendTakeHome.Models
     public class Business
     {
         public string Name { get; set; }
-        public int Factor { get; set; }
+        public double Factor { get; set; }
     }
 }
