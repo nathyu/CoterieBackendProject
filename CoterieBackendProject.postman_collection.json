@@ -50,7 +50,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://localhost:44314/api/quote/state",
+					"raw": "https://localhost:44314/api/quote/states",
 					"protocol": "https",
 					"host": [
 						"localhost"
@@ -59,7 +59,7 @@
 					"path": [
 						"api",
 						"quote",
-						"state"
+						"states"
 					]
 				},
 				"description": "To initialize the In-Memory database with states."
@@ -81,7 +81,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://localhost:44314/api/quote/business",
+					"raw": "https://localhost:44314/api/quote/businesses",
 					"protocol": "https",
 					"host": [
 						"localhost"
@@ -90,7 +90,7 @@
 					"path": [
 						"api",
 						"quote",
-						"business"
+						"businesses"
 					]
 				},
 				"description": "To initilize the In-Memory database with businesses."

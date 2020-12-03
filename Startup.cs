@@ -24,6 +24,7 @@ namespace BackendTakeHome
         {
             services.AddDbContext<QuoteContext>(opt =>
                                                 opt.UseInMemoryDatabase("Customers"));
+
             services.AddScoped<IQuoteService, QuoteService>();
 
             services.AddControllers();

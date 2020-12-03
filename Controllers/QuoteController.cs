@@ -25,12 +25,10 @@ namespace BackendTakeHome.Controllers
         }
 
         // POST: api/quote
-        // Returns the premium
+        // Returns the total premium.
         [HttpPost]
-        public async Task<IActionResult> PostPremium([FromBody]object payload)
+        public async Task<IActionResult> PostPremium([FromBody] Customer customer)
         {
-            var customer = JsonConvert.DeserializeObject<Customer>(payload.ToString());
-
             var totalPremium = await _quoteService.CalculatePremium(customer);
 
             if (totalPremium < 0)
@@ -42,27 +40,27 @@ namespace BackendTakeHome.Controllers
         }
 
         // POST: api/quote/state
-        // Add a list of States to the database
+        // Add a list of States to the database. Mostly just a method to setup the database.
         [HttpPost]
-        [Route("state")]
-        public async Task<IActionResult> PostNewStates([FromBody]object state)
+        [Route("states")]
+        public async Task<IActionResult> PostNewStates([FromBody] List<State> states)
         {
-            _context.States.AddRange(JsonConvert.DeserializeObject<List<State>>(state.ToString()));
+            _context.States.AddRange(states);
             await _context.SaveChangesAsync();
 
-            return new OkResult();
+            return new OkObjectResult(states);
         }
 
         // POST: api/quote/business
-        // Add a list of businesses to the database
+        // Add a list of businesses to the database. Mostly just a method to setup the database.
         [HttpPost]
-        [Route("business")]
-        public async Task<IActionResult> PostNewBusinesses([FromBody]object business)
+        [Route("businesses")]
+        public async Task<IActionResult> PostNewBusinesses([FromBody] List<Business> businesses)
         {
-            _context.Businesses.AddRange(JsonConvert.DeserializeObject<List<Business>>(business.ToString()));
+            _context.Businesses.AddRange(businesses);
             await _context.SaveChangesAsync();
 
-            return new OkResult();
+            return new OkObjectResult(businesses);
         }
         
     }

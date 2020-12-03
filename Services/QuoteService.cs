@@ -15,6 +15,8 @@ namespace BackendTakeHome.Services
             _context = context;
         }
 
+        // Calculates the total premium given a customer's revenue, state, and business.
+        // Returns the total premium as a double.
         public async Task<double> CalculatePremium(Customer customer)
         {
             if (_context.States.Find(customer.State) == null || _context.Businesses.Find(customer.Business) == null)
