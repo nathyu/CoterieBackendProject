@@ -1,8 +1,10 @@
 ﻿using BackendTakeHome.Models;
+using BackendTakeHome.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BackendTakeHome.Controllers
@@ -12,57 +14,56 @@ namespace BackendTakeHome.Controllers
     public class QuoteController : ControllerBase
     {
         private readonly QuoteContext _context;
+        private readonly IQuoteService _quoteService;
         private readonly ILogger<QuoteController> _logger;
 
-        public QuoteController(QuoteContext context, ILogger<QuoteController> logger)
+        public QuoteController(QuoteContext context, IQuoteService quoteService, ILogger<QuoteController> logger)
         {
             _context = context;
+            _quoteService = quoteService;
             _logger = logger;
         }
 
-        [HttpGet]
-        public string Get()
-        {
-            return "Hello World";
-        }
-
+        // POST: api/quote
+        // Returns the premium
         [HttpPost]
-        [Route("state")]
-        public async Task<IActionResult> AddState([FromBody] object state)
-        {
-            _context.States.Add(JsonConvert.DeserializeObject<State>(state.ToString()));
-            await _context.SaveChangesAsync();
-
-            return new OkResult();
-        }
-
-        [HttpPost]
-        [Route("business")]
-        public async Task<IActionResult> AddBusiness([FromBody] object business)
-        {
-            _context.Businesses.Add(JsonConvert.DeserializeObject<Business>(business.ToString()));
-            await _context.SaveChangesAsync();
-
-            return new OkResult();
-        }
-
-        [HttpPost]
-        public JsonResult Post([FromBody] object payload)
+        public async Task<IActionResult> PostPremium([FromBody]object payload)
         {
             var customer = JsonConvert.DeserializeObject<Customer>(payload.ToString());
 
-            var totalPremium = CalculateTotalPremium(customer);
-            return new JsonResult(totalPremium);
+            var totalPremium = await _quoteService.CalculatePremium(customer);
+
+            if (totalPremium < 0)
+            {
+                return new NotFoundObjectResult("State or Business not found.");
+            }
+
+            return new OkObjectResult(new { premium = totalPremium });
         }
 
-        private double CalculateTotalPremium(Customer customer)
+        // POST: api/quote/state
+        // Add a list of States to the database
+        [HttpPost]
+        [Route("state")]
+        public async Task<IActionResult> PostNewStates([FromBody]object state)
         {
-            var stateFactor = _context.States.Find(customer.State).Factor;
-            var businessFactor = _context.Businesses.Find(customer.Business).Factor;
-            var basePremium = Math.Ceiling((double) customer.Revenue / 1000);
-            var hazardFactor = 4;
+            _context.States.AddRange(JsonConvert.DeserializeObject<List<State>>(state.ToString()));
+            await _context.SaveChangesAsync();
 
-            return stateFactor * businessFactor * basePremium * hazardFactor;
+            return new OkResult();
         }
+
+        // POST: api/quote/business
+        // Add a list of businesses to the database
+        [HttpPost]
+        [Route("business")]
+        public async Task<IActionResult> PostNewBusinesses([FromBody]object business)
+        {
+            _context.Businesses.AddRange(JsonConvert.DeserializeObject<List<Business>>(business.ToString()));
+            await _context.SaveChangesAsync();
+
+            return new OkResult();
+        }
+        
     }
 }

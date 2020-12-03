@@ -1,0 +1,102 @@
+{
+	"info": {
+		"_postman_id": "481d5b6c-6f03-4b18-af87-58aabcfbfbaf",
+		"name": "CoterieBackendProject",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "PostPremium",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"revenue\": 6000000,\r\n    \"state\": \"TX\",\r\n    \"business\": \"Plumber\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44314/api/quote",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44314",
+					"path": [
+						"api",
+						"quote"
+					]
+				},
+				"description": "To test the Total Premium calculation."
+			},
+			"response": []
+		},
+		{
+			"name": "PostNewStates",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n        \"name\": \"TX\",\r\n        \"factor\": 0.943\r\n    },\r\n    {\r\n        \"name\": \"OH\",\r\n        \"factor\": 1\r\n    },\r\n    {\r\n        \"name\": \"FL\",\r\n        \"factor\": 1.2\r\n    }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44314/api/quote/state",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44314",
+					"path": [
+						"api",
+						"quote",
+						"state"
+					]
+				},
+				"description": "To initialize the In-Memory database with states."
+			},
+			"response": []
+		},
+		{
+			"name": "PostNewBusinesses",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n        \"name\": \"Plumber\",\r\n        \"factor\": 0.5\r\n    },\r\n        {\r\n        \"name\": \"Architect\",\r\n        \"factor\": 1\r\n    },\r\n        {\r\n        \"name\": \"Programmer\",\r\n        \"factor\": 1.25\r\n    }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44314/api/quote/business",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44314",
+					"path": [
+						"api",
+						"quote",
+						"business"
+					]
+				},
+				"description": "To initilize the In-Memory database with businesses."
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

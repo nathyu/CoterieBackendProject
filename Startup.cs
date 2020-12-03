@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-
+using BackendTakeHome.Services;
 
 namespace BackendTakeHome
 {
@@ -24,6 +24,8 @@ namespace BackendTakeHome
         {
             services.AddDbContext<QuoteContext>(opt =>
                                                 opt.UseInMemoryDatabase("Customers"));
+            services.AddScoped<IQuoteService, QuoteService>();
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
