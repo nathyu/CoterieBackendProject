@@ -7,6 +7,8 @@
 2. Open the solution in Visual Studio
 3. Run IIS Express
 
+The browser will open at the URL: https://localhost:44314/api/quote. No GET call was implemented, so there won't be anything there. I didn't want to implement something that shouldn't belong in the API.
+
 **To test:**
 
 In the repo there's a file called `CoterieBackendProject.postman_collection.json`. In Postman you should be able to import that file and get the following 3 requests:
